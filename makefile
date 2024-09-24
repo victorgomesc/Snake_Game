@@ -9,8 +9,8 @@ BIN=bin/
 
 all: app
 
-app: start.o interrupt.o clock_module.o control_module.o gpio.o pad.o config.o main.o
-	$(CHAIN)-ld $(OBJ)start.o $(OBJ)interrupt.o $(OBJ)main.o $(OBJ)gpio.o $(OBJ)clock_module.o $(OBJ)control_module.o $(OBJ)pad.o $(OBJ)config.o  -T $(SRC)memmap.ld -o $(OBJ)main.elf
+app: start.o interrupt.o clock_module.o control_module.o gpio.o pad.o timer.o config.o main.o
+	$(CHAIN)-ld $(OBJ)start.o $(OBJ)interrupt.o $(OBJ)main.o $(OBJ)timer.o $(OBJ)gpio.o $(OBJ)clock_module.o $(OBJ)control_module.o $(OBJ)pad.o $(OBJ)config.o  -T $(SRC)memmap.ld -o $(OBJ)main.elf
 	$(CHAIN)-objcopy $(OBJ)main.elf $(BIN)spl.boot -O binary
 	cp $(BIN)spl.boot /tftpboot/snake.bin
 
@@ -31,6 +31,9 @@ gpio.o: $(SRC)gpio.c
 
 config.o: $(SRC)config.c
 	$(CHAIN)-gcc $(CFLAGS) $(IPATH) -c $(SRC)config.c -o $(OBJ)config.o
+
+timer.o: $(SRC)timer.c
+	$(CHAIN)-gcc $(CFLAGS) $(IPATH) -c $(SRC)timer.c -o $(OBJ)timer.o
 
 
 

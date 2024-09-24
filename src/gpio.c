@@ -102,11 +102,8 @@ void gpioInitModule(gpioMod mod){
     	unsigned int setting = (1<<18) | (0x2<<0);   //enable functional clock & enable module, TRM 8.1.12.1.29
       	switch(mod){
         	case GPIO0:
-			ckmSetCLKModuleRegister(CKM_WKUP, CKM_WKUP_GPIO0_CLKCTRL, setting);
-
-             
-        	while((ckmGetCLKModuleRegister(CKM_WKUP, CKM_WKUP_GPIO0_CLKCTRL) & (0x3<<16)) != 0);
-        break;
+               ckmSetCLKModuleRegister(CKM_WKUP, CKM_WKUP_GPIO0_CLKCTRL, setting);
+			break;
         case GPIO1:
         	ckmSetCLKModuleRegister(CKM_PER, CKM_PER_GPIO1_CLKCTRL, setting);
         	while((ckmGetCLKModuleRegister(CKM_PER, CKM_PER_GPIO1_CLKCTRL) & (0x3<<16)) != 0)
@@ -275,7 +272,7 @@ void gpioSetPinValue(gpioMod mod, ucPinNumber pin, pinLevel value){
 			switch (mod) {
 				case GPIO0:
                     // GPIOx base+clear data out offset, TRM 2.1 & 25.4.1.25
-      				addr_temp = SOC_GPIO_1_REGS + GPIO_CLEARDATAOUT;
+      				addr_temp = SOC_GPIO_0_REGS + GPIO_CLEARDATAOUT;
 					val_temp = 1<<pin;
 
 				break;
